@@ -1,90 +1,172 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { registerUser } from "../services/authService";
+import AuthLayout from "../components/AuthLayout";
 
 function Register() {
-  const navigate = useNavigate();
+    const navigate = useNavigate();
 
-  const [formData, setFormData] = useState({
-    username: "",
-    email: "",
-    password: "",
-  });
-
-  const handleChange = (e) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value,
+    const [formData, setFormData] = useState({
+        username: "",
+        email: "",
+        password: "",
     });
-  };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+    const [loading, setLoading] = useState(false);
+    const [error, setError] = useState("");
+    const [showPassword, setShowPassword] =
+        useState(false);
 
-    try {
-      const response =
-        await registerUser(formData);
+    const handleChange = (e) => {
+        setFormData({
+            ...formData,
+            [e.target.name]: e.target.value,
+        });
+    };
 
-      console.log(response);
+    const handleSubmit = async (e) => {
+        e.preventDefault();
 
-      alert(
-        "Registration successful. Please login."
-      );
+        try {
+            setLoading(true);
+            setError("");
 
-      navigate("/");
-    } catch (error) {
-      console.error(
-        error.response?.data || error
-      );
-    }
-  };
+            await registerUser(formData);
 
-  return (
-    <div className="min-h-screen bg-gray-100 p-8">
-      <h1 className="text-3xl font-bold mb-6">
-        Register
-      </h1>
+            navigate("/");
+        } catch (err) {
+            setError(
+                err?.response?.data?.message ||
+                    "Registration failed"
+            );
+        } finally {
+            setLoading(false);
+        }
+    };
 
-      <form
-        onSubmit={handleSubmit}
-        className="flex flex-col gap-4 max-w-md"
-      >
-        <input
-          type="text"
-          name="username"
-          placeholder="Username"
-          value={formData.username}
-          onChange={handleChange}
-          className="border p-2 rounded"
-        />
-
-        <input
-          type="email"
-          name="email"
-          placeholder="Email"
-          value={formData.email}
-          onChange={handleChange}
-          className="border p-2 rounded"
-        />
-
-        <input
-          type="password"
-          name="password"
-          placeholder="Password"
-          value={formData.password}
-          onChange={handleChange}
-          className="border p-2 rounded"
-        />
-
-        <button
-          type="submit"
-          className="bg-green-600 text-white px-4 py-2 rounded"
+    return (
+        <AuthLayout
+            title="Create Account"
+            subtitle="Start your investment journey today"
         >
-          Register
-        </button>
-      </form>
-    </div>
-  );
+            {error && (
+                <div className="bg-red-100 dark:bg-red-900/30 text-red-600 dark:text-red-300 p-3 rounded-lg mb-4">
+                    {error}
+                </div>
+            )}
+
+            <form
+                onSubmit={handleSubmit}
+                className="space-y-4"
+            >
+                <input
+                    type="text"
+                    name="username"
+                    placeholder="Username"
+                    value={formData.username}
+                    onChange={handleChange}
+                    required
+                    className="
+w-full
+border
+border-gray-300
+dark:border-slate-700
+rounded-xl
+p-4
+bg-white
+dark:bg-slate-800
+text-black
+dark:text-white
+placeholder:text-gray-400
+"
+                />
+
+                <input
+                    type="email"
+                    name="email"
+                    placeholder="Email"
+                    value={formData.email}
+                    onChange={handleChange}
+                    required
+                    className="
+w-full
+border
+border-gray-300
+dark:border-slate-700
+rounded-xl
+p-4
+bg-white
+dark:bg-slate-800
+text-black
+dark:text-white
+placeholder:text-gray-400
+"
+                />
+
+                <div>
+                    <input
+                        type={
+                            showPassword
+                                ? "text"
+                                : "password"
+                        }
+                        name="password"
+                        placeholder="Password"
+                        value={formData.password}
+                        onChange={handleChange}
+                        required
+                        className="
+w-full
+border
+border-gray-300
+dark:border-slate-700
+rounded-xl
+p-4
+bg-white
+dark:bg-slate-800
+text-black
+dark:text-white
+placeholder:text-gray-400
+"
+                    />
+
+                    <button
+                        type="button"
+                        className="text-sm text-purple-600 mt-2"
+                        onClick={() =>
+                            setShowPassword(
+                                !showPassword
+                            )
+                        }
+                    >
+                        {showPassword
+                            ? "Hide Password"
+                            : "Show Password"}
+                    </button>
+                </div>
+
+                <button
+                    type="submit"
+                    disabled={loading}
+                    className="w-full bg-purple-600 hover:bg-purple-700 text-white p-4 rounded-xl"
+                >
+                    {loading
+                        ? "Creating Account..."
+                        : "Register"}
+                </button>
+            </form>
+
+            <p className="text-center mt-6 text-gray-600 dark:text-gray-400">
+                Already have an account?{" "}
+                <Link
+                    to="/"
+                    className="text-purple-600 font-semibold"
+                >
+                    Login
+                </Link>
+            </p>
+        </AuthLayout>
+    );
 }
 
 export default Register;

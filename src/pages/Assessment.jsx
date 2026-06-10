@@ -71,6 +71,8 @@ const questions = [
   },
 ];
 function Assessment() {
+  const inputClass =
+  "w-full border border-gray-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-gray-900 dark:text-white rounded-xl p-3 focus:outline-none focus:ring-2 focus:ring-blue-500";
   const [result, setResult] = useState(null);
   const [formData, setFormData] = useState({
     age: "",
@@ -138,126 +140,157 @@ function Assessment() {
 
   };
   return (
-    <div className="min-h-screen bg-gray-100 p-8">
-      <Navbar />
-      <h1 className="text-3xl font-bold mb-6">
-        Risk Assessment
-      </h1>
-      <form onSubmit={handleSubmit}>
-        <input
-          type="number"
-          name="age"
-          placeholder="Age"
-          value={formData.age}
-          onChange={handleChange}
-          className="border p-2 rounded"
-        />
+  <>
+    <Navbar />
 
-        <input
-          type="text"
-          name="occupation"
-          placeholder="Occupation"
-          value={formData.occupation}
-          onChange={handleChange}
-          className="border p-2 rounded"
-        />
+    <div className="min-h-screen bg-gray-100 dark:bg-slate-950 py-8 px-4">
+      <div className="max-w-5xl mx-auto">
 
-        <input
-          type="text"
-          name="location"
-          placeholder="Location"
-          value={formData.location}
-          onChange={handleChange}
-          className="border p-2 rounded"
-        />
-        <input
-          type="number"
-          name="income"
-          placeholder="Annual Income"
-          value={formData.income}
-          onChange={handleChange}
-          className="border p-2 rounded"
-        />
+        {/* Header */}
+        <div className="mb-8">
+          <h1 className="text-4xl font-bold text-gray-900 dark:text-white">
+            Risk Assessment
+          </h1>
 
-        <input
-          type="number"
-          name="savings"
-          placeholder="Savings"
-          value={formData.savings}
-          onChange={handleChange}
-          className="border p-2 rounded"
-        />
+          <p className="text-gray-600 dark:text-gray-400 mt-2">
+            Answer a few questions to discover your investor profile.
+          </p>
+        </div>
 
-        <input
-          type="number"
-          name="investmentBudget"
-          placeholder="Investment Budget"
-          value={formData.investmentBudget}
-          onChange={handleChange}
-          className="border p-2 rounded"
-        />
-
-        <select
-          name="goal"
-          value={formData.goal}
-          onChange={handleChange}
-          className="border p-2 rounded"
+        <form
+          onSubmit={handleSubmit}
+          className="bg-white dark:bg-slate-900 rounded-3xl shadow-lg p-8"
         >
-          <option value="">
-            Select Goal
-          </option>
 
-          <option value="Capital Protection">
-            Capital Protection
-          </option>
+          {/* Personal Information */}
+          <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-4">
+            Personal Information
+          </h2>
 
-          <option value="Regular Income">
-            Regular Income
-          </option>
+          <div className="grid md:grid-cols-2 gap-4 mb-8">
 
-          <option value="Balanced Growth">
-            Balanced Growth
-          </option>
+            <input
+              type="number"
+              name="age"
+              placeholder="Age"
+              value={formData.age}
+              onChange={handleChange}
+              className={inputClass}
+            />
 
-          <option value="Long-Term Growth">
-            Long-Term Growth
-          </option>
-        </select>
+            <input
+              type="text"
+              name="occupation"
+              placeholder="Occupation"
+              value={formData.occupation}
+              onChange={handleChange}
+              className={inputClass}
+            />
 
-        <select
-          name="experience"
-          value={formData.experience}
-          onChange={handleChange}
-          className="border p-2 rounded"
-        >
-          <option value="">
-            Select Experience
-          </option>
+            <input
+              type="text"
+              name="location"
+              placeholder="Location"
+              value={formData.location}
+              onChange={handleChange}
+              className={inputClass}
+            />
 
-          <option value="Beginner">
-            Beginner
-          </option>
+            <input
+              type="number"
+              name="income"
+              placeholder="Annual Income"
+              value={formData.income}
+              onChange={handleChange}
+              className={inputClass}
+            />
 
-          <option value="Intermediate">
-            Intermediate
-          </option>
+            <input
+              type="number"
+              name="savings"
+              placeholder="Savings"
+              value={formData.savings}
+              onChange={handleChange}
+              className={inputClass}
+            />
 
-          <option value="Advanced">
-            Advanced
-          </option>
-        </select>
-        {
-          questions.map((question) => (
+            <input
+              type="number"
+              name="investmentBudget"
+              placeholder="Investment Budget"
+              value={formData.investmentBudget}
+              onChange={handleChange}
+              className={inputClass}
+            />
+
+            <select
+              name="goal"
+              value={formData.goal}
+              onChange={handleChange}
+              className={inputClass}
+            >
+              <option value="">Select Goal</option>
+              <option value="Capital Protection">
+                Capital Protection
+              </option>
+              <option value="Regular Income">
+                Regular Income
+              </option>
+              <option value="Balanced Growth">
+                Balanced Growth
+              </option>
+              <option value="Long-Term Growth">
+                Long-Term Growth
+              </option>
+            </select>
+
+            <select
+              name="experience"
+              value={formData.experience}
+              onChange={handleChange}
+              className={inputClass}
+            >
+              <option value="">
+                Select Experience
+              </option>
+
+              <option value="Beginner">
+                Beginner
+              </option>
+
+              <option value="Intermediate">
+                Intermediate
+              </option>
+
+              <option value="Advanced">
+                Advanced
+              </option>
+            </select>
+
+          </div>
+
+          {/* Questionnaire */}
+          <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-4">
+            Risk Questionnaire
+          </h2>
+
+          {questions.map((question) => (
             <div
               key={question.questionId}
-              className="mt-6"
+              className="
+                bg-gray-50
+                dark:bg-slate-800
+                p-5
+                rounded-2xl
+                mb-4
+              "
             >
-              <h3 className="font-semibold mb-2">
+              <h3 className="font-semibold text-gray-900 dark:text-white mb-3">
                 {question.title}
               </h3>
 
               <select
-                className="border p-2 rounded w-full"
+                className={inputClass}
                 onChange={(e) =>
                   handleAnswerChange(
                     question.questionId,
@@ -279,43 +312,72 @@ function Assessment() {
                 ))}
               </select>
             </div>
-          ))
-        }
-        <button
-          type="submit"
-          className="bg-blue-600 text-white px-4 py-2 rounded mt-6"
-        >
-          Submit Assessment
-        </button>
-      </form>
+          ))}
 
+          <button
+            type="submit"
+            className="
+              w-full
+              mt-8
+              bg-blue-600
+              hover:bg-blue-700
+              text-white
+              font-semibold
+              py-4
+              rounded-xl
+              transition
+            "
+          >
+            Submit Assessment
+          </button>
 
-      {/* <div className="mt-8">
-          <h2 className="font-semibold mb-2">
-            Current Form State
-          </h2>
+        </form>
 
-          <pre className="bg-gray-100 p-4 rounded">
-            {JSON.stringify(formData, null, 2)}
-          </pre>
-          
-        </div> */}
-      {result && (
-        <div>
-          <h2>Assessment Result</h2>
+        {result && (
+          <div
+            className="
+              mt-8
+              bg-white
+              dark:bg-slate-900
+              rounded-3xl
+              shadow-lg
+              p-8
+            "
+          >
+            <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-6">
+              Assessment Result
+            </h2>
 
-          <p>
-            Risk Score: {result.riskScore}
-          </p>
+            <div className="grid md:grid-cols-2 gap-4">
 
-          <p>
-            Investor Type: {result.investorType}
-          </p>
-        </div>
-      )}
+              <div className="bg-blue-100 dark:bg-blue-900/30 rounded-xl p-4">
+                <p className="text-sm text-gray-600 dark:text-gray-400">
+                  Risk Score
+                </p>
+
+                <p className="text-3xl font-bold text-blue-600">
+                  {result.riskScore}
+                </p>
+              </div>
+
+              <div className="bg-green-100 dark:bg-green-900/30 rounded-xl p-4">
+                <p className="text-sm text-gray-600 dark:text-gray-400">
+                  Investor Type
+                </p>
+
+                <p className="text-3xl font-bold text-green-600">
+                  {result.investorType}
+                </p>
+              </div>
+
+            </div>
+          </div>
+        )}
+
+      </div>
     </div>
-
-  );
+  </>
+);
 }
 
 export default Assessment;

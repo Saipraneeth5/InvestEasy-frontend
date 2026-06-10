@@ -24,62 +24,142 @@ function AssessmentHistory() {
     fetchAssessments();
   }, []);
 
+  const getBadgeColor = (type) => {
+    switch (type) {
+      case "Conservative":
+        return "bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400";
+
+      case "Moderate":
+        return "bg-yellow-100 text-yellow-700 dark:bg-yellow-900/30 dark:text-yellow-400";
+
+      case "Aggressive":
+        return "bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-400";
+
+      default:
+        return "bg-gray-100 text-gray-700";
+    }
+  };
+
   return (
-    <div className="min-h-screen bg-gray-100 p-8">
+    <>
       <Navbar />
 
-      <div className="p-8">
-        <h1 className="text-3xl font-bold mb-6">
-          Assessment History
-        </h1>
+      <div className="min-h-screen bg-gray-100 dark:bg-slate-950 p-4 md:p-8">
 
-        <table className="w-full border">
-          <thead>
-            <tr className="bg-gray-200">
-              <th className="border p-2">
-                Date
-              </th>
+        <div className="max-w-6xl mx-auto">
 
-              <th className="border p-2">
-                Risk Score
-              </th>
+          {/* Header */}
+          <div className="mb-8">
+            <h1 className="text-4xl font-bold text-gray-900 dark:text-white">
+              Assessment History
+            </h1>
 
-              <th className="border p-2">
-                Investor Type
-              </th>
-            </tr>
-          </thead>
+            <p className="text-gray-600 dark:text-gray-400 mt-2">
+              View all your past risk assessments.
+            </p>
+          </div>
 
-          <tbody>
-            {assessments.map(
-              (assessment) => (
-                <tr
-                  key={assessment._id}
-                >
-                  <td className="border p-2">
-                    {new Date(
-                      assessment.createdAt
-                    ).toLocaleDateString()}
-                  </td>
+          {/* Empty State */}
+          {assessments.length === 0 ? (
+            <div className="bg-white dark:bg-slate-900 rounded-3xl shadow-lg p-10 text-center">
+              <h2 className="text-2xl font-semibold text-gray-900 dark:text-white mb-2">
+                No Assessments Found
+              </h2>
 
-                  <td className="border p-2">
-                    {
-                      assessment.riskScore
-                    }
-                  </td>
+              <p className="text-gray-600 dark:text-gray-400">
+                Complete your first risk assessment to
+                see results here.
+              </p>
+            </div>
+          ) : (
+            <div className="bg-white dark:bg-slate-900 rounded-3xl shadow-lg overflow-hidden">
 
-                  <td className="border p-2">
-                    {
-                      assessment.investorType
-                    }
-                  </td>
-                </tr>
-              )
-            )}
-          </tbody>
-        </table>
+              <div className="overflow-x-auto">
+
+                <table className="w-full">
+
+                  <thead>
+                    <tr className="bg-gray-100 dark:bg-slate-800">
+
+                      <th className="p-4 text-left text-gray-900 dark:text-white">
+                        Date
+                      </th>
+
+                      <th className="p-4 text-left text-gray-900 dark:text-white">
+                        Risk Score
+                      </th>
+
+                      <th className="p-4 text-left text-gray-900 dark:text-white">
+                        Investor Type
+                      </th>
+
+                    </tr>
+                  </thead>
+
+                  <tbody>
+
+                    {assessments.map(
+                      (assessment) => (
+                        <tr
+                          key={
+                            assessment._id
+                          }
+                          className="
+                          border-t
+                          border-gray-200
+                          dark:border-slate-700
+                          hover:bg-gray-50
+                          dark:hover:bg-slate-800
+                          transition
+                        "
+                        >
+                          <td className="p-4 text-gray-700 dark:text-gray-300">
+                            {new Date(
+                              assessment.createdAt
+                            ).toLocaleDateString()}
+                          </td>
+
+                          <td className="p-4 text-gray-700 dark:text-gray-300 font-medium">
+                            {
+                              assessment.riskScore
+                            }
+                          </td>
+
+                          <td className="p-4">
+                            <span
+                              className={`
+                                px-3
+                                py-1
+                                rounded-full
+                                text-sm
+                                font-semibold
+                                ${getBadgeColor(
+                                  assessment.investorType
+                                )}
+                              `}
+                            >
+                              {
+                                assessment.investorType
+                              }
+                            </span>
+                          </td>
+                        </tr>
+                      )
+                    )}
+
+                  </tbody>
+
+                </table>
+
+              </div>
+
+            </div>
+          )}
+
+        </div>
+
       </div>
-    </div>
+    </>
   );
 }
 
